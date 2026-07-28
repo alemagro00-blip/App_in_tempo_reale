@@ -20,7 +20,7 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
 
-    /* FORZATURA TEMA SCURO REALE (Risolve il problema dei numeri scuri su mobile) */
+    /* FORZATURA TEMA SCURO REALE */
     :root {
         --background-color: #131722 !important;
         --secondary-background-color: #1E222D !important;
@@ -35,6 +35,33 @@ st.markdown("""
     [data-testid="stSidebar"] {
         background-color: #1E222D !important;
         border-right: 1px solid #2A2E39;
+    }
+
+    /* FIX MENU A TENDINA & INPUT (Risolve il testo nero nei menu) */
+    div[data-baseweb="select"], div[data-baseweb="select"] * {
+        background-color: #1E222D !important;
+        color: #F0F3FA !important;
+        border-color: #2A2E39 !important;
+    }
+    ul[data-baseweb="menu"], ul[data-baseweb="menu"] * {
+        background-color: #1E222D !important;
+        color: #F0F3FA !important;
+    }
+    div[role="listbox"] div {
+        color: #F0F3FA !important;
+    }
+    li[data-baseweb="option"] {
+        background-color: #1E222D !important;
+        color: #F0F3FA !important;
+    }
+    li[data-baseweb="option"]:hover {
+        background-color: #2A2E39 !important;
+    }
+    [data-baseweb="popover"] {
+        background-color: #1E222D !important;
+    }
+    .stSelectbox label, .stMultiSelect label, .stRadio label, .stSlider label {
+        color: #F0F3FA !important;
     }
 
     /* Header elegante e accattivante */
@@ -91,7 +118,7 @@ st.markdown("""
         100% { box-shadow: 0 0 0 0 rgba(8, 153, 129, 0); }
     }
 
-    /* Card metriche con colori forzati in bianco */
+    /* Card metriche */
     [data-testid="stMetric"] {
         background: #1E222D !important;
         border: 1px solid #2A2E39 !important;
@@ -138,9 +165,7 @@ st.markdown("""
         line-height: 1.5;
     }
 
-    /* ==========================================
-       OPTIMIZATIONS SPECIFICHE PER SMARTPHONE
-       ========================================== */
+    /* OPTIMIZATIONS SPECIFICHE PER SMARTPHONE */
     @media (max-width: 768px) {
         .block-container {
             padding-left: 0.8rem !important;
@@ -208,7 +233,7 @@ asset_dict = {
 # --- SIDEBAR ---
 st.sidebar.header("🎛️ Pannello di Controllo")
 
-modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "⚔️ Confronto Multi-Asset"])
+modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "Confronto Multi-Asset"])
 
 periodo = st.sidebar.select_slider(
     "Periodo di Analisi:",
