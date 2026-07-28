@@ -215,18 +215,59 @@ if modalita == "Singolo Asset":
 
         st.plotly_chart(fig, use_container_width=True)
 
-        # LEGENDA E SPIEGAZIONE DEGLI INDICATORI
-        with st.expander("❓ Guida Rapida: Come leggere il grafico e gli indicatori"):
+# LEGENDA E SPIEGAZIONE DEGLI INDICATORI (DESIGN PROFESSIONALE)
+        with st.expander("ℹ️ Guida e Legenda Indicatori Tecnologici"):
             st.markdown("""
-            * **🟢🔴 Prezzo (Candele o Linea):** Mostra l'andamento del valore nel tempo. Il colore **verde** indica che il prezzo è salito nell'intervallo considerato, il **rosso** che è sceso.
-            * **📊 Volume (Istogramma in basso):** Indica la *quantità* di titoli o criptovalute scambiate in quel preciso intervallo. Più le barre sono alte, più c'è interesse e attività sul mercato.
-            * **🟡 Media Mobile (SMA 20):** È la media del prezzo calcolata sugli ultimi 20 periodi. Serve a "lisciare" i sbalzi improvvisi per capire la vera direzione del trend.
-            * **🔵 Bande di Bollinger:** Creano un canale attorno al prezzo. Quando le bande si allargano c'è molta volatilità (forti movimenti); se il prezzo tocca la banda superiore o inferiore può indicare un momento di stacco o rimbalzo.
-            """)
+            <style>
+            .legend-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                margin-bottom: 14px;
+            }
+            .badge-tag {
+                font-family: monospace;
+                font-size: 11px;
+                font-weight: 700;
+                padding: 3px 8px;
+                border-radius: 4px;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+                min-width: 90px;
+                text-align: center;
+            }
+            .badge-green { background: rgba(8, 153, 129, 0.2); color: #089981; border: 1px solid #089981; }
+            .badge-red { background: rgba(242, 54, 69, 0.2); color: #F23645; border: 1px solid #F23645; }
+            .badge-vol { background: rgba(120, 123, 134, 0.2); color: #B2B5BE; border: 1px solid #787B86; }
+            .badge-sma { background: rgba(247, 166, 0, 0.2); color: #F7A600; border: 1px solid #F7A600; }
+            .badge-boll { background: rgba(41, 98, 255, 0.2); color: #2962FF; border: 1px solid #2962FF; }
+            .legend-desc {
+                font-size: 13px;
+                color: #B2B5BE;
+                line-height: 1.5;
+            }
+            </style>
 
-        with st.expander("📋 Tabella dei Dati Grezzi (Ultimi Record)"):
-            df_display = df[['Open', 'High', 'Low', 'Close', 'Volume', 'SMA20']].tail(15)
-            st.dataframe(df_display.sort_index(ascending=False), use_container_width=True)
+            <div style="padding-top: 10px;">
+                <div class="legend-item">
+                    <span class="badge-tag badge-green">CANDELA +</span>
+                    <span class="badge-tag badge-red">CANDELA -</span>
+                    <div class="legend-desc"><strong>Prezzo e Trend:</strong> Rappresenta l'oscillazione del valore. Il colore <strong>Verde</strong> indica una chiusura in rialzo, il <strong>Rosso</strong> una chiusura in ribasso nell'intervallo di tempo selezionato.</div>
+                </div>
+                <div class="legend-item">
+                    <span class="badge-tag badge-vol">VOLUME</span>
+                    <div class="legend-desc"><strong>Volume Scambi:</strong> Istogramma in basso che mostra la quantità di titoli o contratti scambiati. Barre elevate indicano un forte interesse operativo da parte degli operatori.</div>
+                </div>
+                <div class="legend-item">
+                    <span class="badge-tag badge-sma">SMA 20</span>
+                    <div class="legend-desc"><strong>Media Mobile Semplice (20 periodi):</strong> Calcola il prezzo medio degli ultimi 20 intervalli per smussare le fluttuazioni di breve termine e identificare la direzione primaria del trend.</div>
+                </div>
+                <div class="legend-item">
+                    <span class="badge-tag badge-boll">BOLLINGER</span>
+                    <div class="legend-desc"><strong>Bande di Volatilità:</strong> Canale statistico calcolato attorno alla media mobile. L'allontanamento delle bande segnala un incremento di volatilità nel mercato.</div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
 # ==========================================
 # MODALITÀ 2: CONFRONTO MULTI-ASSET
