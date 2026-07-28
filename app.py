@@ -85,6 +85,35 @@ st.markdown("""
         font-size: 24px !important;
         font-weight: 600;
     }
+
+    /* Stile per i Badge della Legenda */
+    .legend-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+    .badge-tag {
+        font-family: monospace;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 4px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        min-width: 90px;
+        text-align: center;
+    }
+    .badge-green { background: rgba(8, 153, 129, 0.2); color: #089981; border: 1px solid #089981; }
+    .badge-red { background: rgba(242, 54, 69, 0.2); color: #F23645; border: 1px solid #F23645; }
+    .badge-vol { background: rgba(120, 123, 134, 0.2); color: #B2B5BE; border: 1px solid #787B86; }
+    .badge-sma { background: rgba(247, 166, 0, 0.2); color: #F7A600; border: 1px solid #F7A600; }
+    .badge-boll { background: rgba(41, 98, 255, 0.2); color: #2962FF; border: 1px solid #2962FF; }
+    .legend-desc {
+        font-size: 13px;
+        color: #B2B5BE;
+        line-height: 1.5;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -120,7 +149,7 @@ asset_dict = {
 st.sidebar.header("🎛️ Pannello di Controllo")
 
 # Selezione Modalità
-modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "Confronto Multi-Asset"])
+modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "⚔️ Confronto Multi-Asset"])
 
 periodo = st.sidebar.select_slider(
     "Periodo di Analisi:",
@@ -215,40 +244,10 @@ if modalita == "Singolo Asset":
 
         st.plotly_chart(fig, use_container_width=True)
 
-# LEGENDA E SPIEGAZIONE DEGLI INDICATORI (DESIGN PROFESSIONALE)
-        with st.expander("ℹ️ Guida e Legenda Indicatori Tecnologici"):
+        # LEGENDA PROFESSIONALE CON BADGE CSS
+        with st.expander("ℹ️ Guida e Legenda Indicatori Tecnici"):
             st.markdown("""
-            <style>
-            .legend-item {
-                display: flex;
-                align-items: flex-start;
-                gap: 12px;
-                margin-bottom: 14px;
-            }
-            .badge-tag {
-                font-family: monospace;
-                font-size: 11px;
-                font-weight: 700;
-                padding: 3px 8px;
-                border-radius: 4px;
-                letter-spacing: 0.5px;
-                text-transform: uppercase;
-                min-width: 90px;
-                text-align: center;
-            }
-            .badge-green { background: rgba(8, 153, 129, 0.2); color: #089981; border: 1px solid #089981; }
-            .badge-red { background: rgba(242, 54, 69, 0.2); color: #F23645; border: 1px solid #F23645; }
-            .badge-vol { background: rgba(120, 123, 134, 0.2); color: #B2B5BE; border: 1px solid #787B86; }
-            .badge-sma { background: rgba(247, 166, 0, 0.2); color: #F7A600; border: 1px solid #F7A600; }
-            .badge-boll { background: rgba(41, 98, 255, 0.2); color: #2962FF; border: 1px solid #2962FF; }
-            .legend-desc {
-                font-size: 13px;
-                color: #B2B5BE;
-                line-height: 1.5;
-            }
-            </style>
-
-            <div style="padding-top: 10px;">
+            <div style="padding-top: 5px;">
                 <div class="legend-item">
                     <span class="badge-tag badge-green">CANDELA +</span>
                     <span class="badge-tag badge-red">CANDELA -</span>
@@ -256,7 +255,7 @@ if modalita == "Singolo Asset":
                 </div>
                 <div class="legend-item">
                     <span class="badge-tag badge-vol">VOLUME</span>
-                    <div class="legend-desc"><strong>Volume Scambi:</strong> Istogramma in basso che mostra la quantità di titoli o contratti scambiati. Barre elevate indicano un forte interesse operativo da parte degli operatori.</div>
+                    <div class="legend-desc"><strong>Volume Scambi:</strong> Istogramma in basso che mostra la quantità di titoli o contratti scambiati. Barre elevate indicano un forte interesse operativo sul mercato.</div>
                 </div>
                 <div class="legend-item">
                     <span class="badge-tag badge-sma">SMA 20</span>
@@ -268,6 +267,11 @@ if modalita == "Singolo Asset":
                 </div>
             </div>
             """, unsafe_allow_html=True)
+
+        # TABELLA DATI GREZZI RIPRISTINATA
+        with st.expander("📋 Tabella dei Dati Grezzi (Ultimi Record)"):
+            df_display = df[['Open', 'High', 'Low', 'Close', 'Volume', 'SMA20']].tail(15)
+            st.dataframe(df_display.sort_index(ascending=False), use_container_width=True)
 
 # ==========================================
 # MODALITÀ 2: CONFRONTO MULTI-ASSET
