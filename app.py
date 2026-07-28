@@ -20,7 +20,13 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
 
-    /* FORZATURA TEMA SCURO GLOBALE (Utile per schermi smartphone) */
+    /* FORZATURA TEMA SCURO REALE (Risolve il problema dei numeri scuri su mobile) */
+    :root {
+        --background-color: #131722 !important;
+        --secondary-background-color: #1E222D !important;
+        --text-color: #F0F3FA !important;
+    }
+
     .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
         background-color: #131722 !important;
         color: #F0F3FA !important;
@@ -46,25 +52,25 @@ st.markdown("""
     .title-text h1 {
         margin: 0;
         font-size: 24px;
-        color: #F0F3FA;
+        color: #F0F3FA !important;
         font-weight: 700;
         letter-spacing: -0.5px;
     }
     .title-text p {
         margin: 4px 0 0 0;
-        color: #787B86;
+        color: #787B86 !important;
         font-size: 13px;
         font-weight: 400;
     }
     
-    /* Badge Live in Italiano */
+    /* Badge Live */
     .live-badge {
         display: flex;
         align-items: center;
         gap: 8px;
         background: rgba(8, 153, 129, 0.12);
         border: 1px solid rgba(8, 153, 129, 0.3);
-        color: #089981;
+        color: #089981 !important;
         padding: 6px 14px;
         border-radius: 6px;
         font-size: 11px;
@@ -85,17 +91,22 @@ st.markdown("""
         100% { box-shadow: 0 0 0 0 rgba(8, 153, 129, 0); }
     }
 
-    /* Card metriche */
+    /* Card metriche con colori forzati in bianco */
     [data-testid="stMetric"] {
-        background: #1E222D;
-        border: 1px solid #2A2E39;
-        padding: 14px 18px;
-        border-radius: 10px;
+        background: #1E222D !important;
+        border: 1px solid #2A2E39 !important;
+        padding: 14px 18px !important;
+        border-radius: 10px !important;
         margin-bottom: 10px;
     }
+    [data-testid="stMetricLabel"] {
+        color: #787B86 !important;
+        font-size: 13px !important;
+    }
     [data-testid="stMetricValue"] {
+        color: #F0F3FA !important;
         font-size: 22px !important;
-        font-weight: 600;
+        font-weight: 600 !important;
     }
 
     /* Stile per i Badge della Legenda */
@@ -116,14 +127,14 @@ st.markdown("""
         min-width: 85px;
         text-align: center;
     }
-    .badge-green { background: rgba(8, 153, 129, 0.2); color: #089981; border: 1px solid #089981; }
-    .badge-red { background: rgba(242, 54, 69, 0.2); color: #F23645; border: 1px solid #F23645; }
-    .badge-vol { background: rgba(120, 123, 134, 0.2); color: #B2B5BE; border: 1px solid #787B86; }
-    .badge-sma { background: rgba(247, 166, 0, 0.2); color: #F7A600; border: 1px solid #F7A600; }
-    .badge-boll { background: rgba(41, 98, 255, 0.2); color: #2962FF; border: 1px solid #2962FF; }
+    .badge-green { background: rgba(8, 153, 129, 0.2); color: #089981 !important; border: 1px solid #089981; }
+    .badge-red { background: rgba(242, 54, 69, 0.2); color: #F23645 !important; border: 1px solid #F23645; }
+    .badge-vol { background: rgba(120, 123, 134, 0.2); color: #B2B5BE !important; border: 1px solid #787B86; }
+    .badge-sma { background: rgba(247, 166, 0, 0.2); color: #F7A600 !important; border: 1px solid #F7A600; }
+    .badge-boll { background: rgba(41, 98, 255, 0.2); color: #2962FF !important; border: 1px solid #2962FF; }
     .legend-desc {
         font-size: 13px;
-        color: #B2B5BE;
+        color: #B2B5BE !important;
         line-height: 1.5;
     }
 
@@ -131,6 +142,11 @@ st.markdown("""
        OPTIMIZATIONS SPECIFICHE PER SMARTPHONE
        ========================================== */
     @media (max-width: 768px) {
+        .block-container {
+            padding-left: 0.8rem !important;
+            padding-right: 0.8rem !important;
+            padding-top: 1rem !important;
+        }
         .title-container {
             flex-direction: column;
             align-items: flex-start;
@@ -138,16 +154,16 @@ st.markdown("""
             padding: 16px;
         }
         .title-text h1 {
-            font-size: 20px;
+            font-size: 19px !important;
         }
         .title-text p {
-            font-size: 12px;
+            font-size: 11px !important;
         }
         .live-badge {
             align-self: flex-start;
         }
         [data-testid="stMetricValue"] {
-            font-size: 18px !important;
+            font-size: 17px !important;
         }
         .legend-item {
             flex-direction: column;
@@ -192,7 +208,7 @@ asset_dict = {
 # --- SIDEBAR ---
 st.sidebar.header("🎛️ Pannello di Controllo")
 
-modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "Confronto Multi-Asset"])
+modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "⚔️ Confronto Multi-Asset"])
 
 periodo = st.sidebar.select_slider(
     "Periodo di Analisi:",
@@ -248,7 +264,7 @@ if modalita == "Singolo Asset":
             rows=2, cols=1, 
             shared_xaxes=True, 
             vertical_spacing=0.03, 
-            row_heights=[0.78, 0.22]
+            row_heights=[0.75, 0.25]
         )
 
         if tipo_grafico == "Candele Giapponesi":
@@ -266,18 +282,18 @@ if modalita == "Singolo Asset":
             ), row=1, col=1)
 
         if mostra_sma:
-            fig.add_trace(go.Scatter(x=df.index, y=df['SMA20'], mode='lines', name='Media Mobile (SMA 20)', line=dict(color='#F7A600', width=1.5)), row=1, col=1)
+            fig.add_trace(go.Scatter(x=df.index, y=df['SMA20'], mode='lines', name='SMA 20', line=dict(color='#F7A600', width=1.5)), row=1, col=1)
 
         if mostra_bollinger:
-            fig.add_trace(go.Scatter(x=df.index, y=df['Upper_Bollinger'], mode='lines', name='Bollinger Sup.', line=dict(color='rgba(41, 98, 255, 0.5)', width=1, dash='dot')), row=1, col=1)
-            fig.add_trace(go.Scatter(x=df.index, y=df['Lower_Bollinger'], mode='lines', name='Bollinger Inf.', line=dict(color='rgba(41, 98, 255, 0.5)', width=1, dash='dot'), fill='tonexty', fillcolor='rgba(41, 98, 255, 0.05)'), row=1, col=1)
+            fig.add_trace(go.Scatter(x=df.index, y=df['Upper_Bollinger'], mode='lines', name='Boll. Sup.', line=dict(color='rgba(41, 98, 255, 0.5)', width=1, dash='dot')), row=1, col=1)
+            fig.add_trace(go.Scatter(x=df.index, y=df['Lower_Bollinger'], mode='lines', name='Boll. Inf.', line=dict(color='rgba(41, 98, 255, 0.5)', width=1, dash='dot'), fill='tonexty', fillcolor='rgba(41, 98, 255, 0.05)'), row=1, col=1)
 
         colors_vol = ['#089981' if c >= o else '#F23645' for c, o in zip(df['Close'], df['Open'])]
-        fig.add_trace(go.Bar(x=df.index, y=df['Volume'], name='Volume Scambi', marker_color=colors_vol, opacity=0.5), row=2, col=1)
+        fig.add_trace(go.Bar(x=df.index, y=df['Volume'], name='Volume', marker_color=colors_vol, opacity=0.5), row=2, col=1)
 
         fig.update_layout(
             template="plotly_dark", paper_bgcolor="#131722", plot_bgcolor="#131722",
-            height=500, margin=dict(l=10, r=10, t=10, b=10),
+            height=480, margin=dict(l=5, r=5, t=10, b=10),
             xaxis_rangeslider_visible=False, showlegend=True,
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
@@ -363,8 +379,8 @@ else:
             template="plotly_dark",
             paper_bgcolor="#131722",
             plot_bgcolor="#131722",
-            height=480,
-            margin=dict(l=10, r=10, t=40, b=10),
+            height=450,
+            margin=dict(l=5, r=5, t=40, b=10),
             yaxis_title="Variazione % dall'inizio",
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
