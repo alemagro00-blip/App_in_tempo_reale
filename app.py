@@ -120,7 +120,7 @@ asset_dict = {
 st.sidebar.header("🎛️ Control Center")
 
 # Selezione Modalità
-modalita = st.sidebar.radio("Modalità Analisi:", ["Singolo Asset", "⚔️ Confronto Multi-Asset"])
+modalita = st.sidebar.radio("Modalità Analisi:", ["Singolo Asset", "Confronto Multi-Asset"])
 
 periodo = st.sidebar.select_slider(
     "Intervallo Temporale:",
