@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- CSS PERSONALIZZATO PER DESIGN PRO DARK ---
+# --- CSS PERSONALIZZATO PER DESIGN PRO DARK & RESPONSIVE MOBILE ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -19,22 +19,33 @@ st.markdown("""
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
     }
+
+    /* FORZATURA TEMA SCURO GLOBALE (Utile per schermi smartphone) */
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+        background-color: #131722 !important;
+        color: #F0F3FA !important;
+    }
     
+    [data-testid="stSidebar"] {
+        background-color: #1E222D !important;
+        border-right: 1px solid #2A2E39;
+    }
+
     /* Header elegante e accattivante */
     .title-container {
         display: flex;
         align-items: center;
         justify-content: space-between;
         background: linear-gradient(135deg, #1E222D 0%, #171B26 100%);
-        padding: 22px 32px;
+        padding: 20px 24px;
         border-radius: 12px;
         border: 1px solid #2A2E39;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     }
     .title-text h1 {
         margin: 0;
-        font-size: 26px;
+        font-size: 24px;
         color: #F0F3FA;
         font-weight: 700;
         letter-spacing: -0.5px;
@@ -78,11 +89,12 @@ st.markdown("""
     [data-testid="stMetric"] {
         background: #1E222D;
         border: 1px solid #2A2E39;
-        padding: 16px 20px;
+        padding: 14px 18px;
         border-radius: 10px;
+        margin-bottom: 10px;
     }
     [data-testid="stMetricValue"] {
-        font-size: 24px !important;
+        font-size: 22px !important;
         font-weight: 600;
     }
 
@@ -101,7 +113,7 @@ st.markdown("""
         border-radius: 4px;
         letter-spacing: 0.5px;
         text-transform: uppercase;
-        min-width: 90px;
+        min-width: 85px;
         text-align: center;
     }
     .badge-green { background: rgba(8, 153, 129, 0.2); color: #089981; border: 1px solid #089981; }
@@ -113,6 +125,38 @@ st.markdown("""
         font-size: 13px;
         color: #B2B5BE;
         line-height: 1.5;
+    }
+
+    /* ==========================================
+       OPTIMIZATIONS SPECIFICHE PER SMARTPHONE
+       ========================================== */
+    @media (max-width: 768px) {
+        .title-container {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+        }
+        .title-text h1 {
+            font-size: 20px;
+        }
+        .title-text p {
+            font-size: 12px;
+        }
+        .live-badge {
+            align-self: flex-start;
+        }
+        [data-testid="stMetricValue"] {
+            font-size: 18px !important;
+        }
+        .legend-item {
+            flex-direction: column;
+            gap: 6px;
+        }
+        .badge-tag {
+            min-width: auto;
+            align-self: flex-start;
+        }
     }
     </style>
 """, unsafe_allow_html=True)
@@ -148,8 +192,7 @@ asset_dict = {
 # --- SIDEBAR ---
 st.sidebar.header("🎛️ Pannello di Controllo")
 
-# Selezione Modalità
-modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "Confronto Multi-Asset"])
+modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "⚔️ Confronto Multi-Asset"])
 
 periodo = st.sidebar.select_slider(
     "Periodo di Analisi:",
@@ -234,7 +277,7 @@ if modalita == "Singolo Asset":
 
         fig.update_layout(
             template="plotly_dark", paper_bgcolor="#131722", plot_bgcolor="#131722",
-            height=580, margin=dict(l=10, r=10, t=10, b=10),
+            height=500, margin=dict(l=10, r=10, t=10, b=10),
             xaxis_rangeslider_visible=False, showlegend=True,
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
@@ -268,7 +311,7 @@ if modalita == "Singolo Asset":
             </div>
             """, unsafe_allow_html=True)
 
-        # TABELLA DATI GREZZI RIPRISTINATA
+        # TABELLA DATI GREZZI
         with st.expander("📋 Tabella dei Dati Grezzi (Ultimi Record)"):
             df_display = df[['Open', 'High', 'Low', 'Close', 'Volume', 'SMA20']].tail(15)
             st.dataframe(df_display.sort_index(ascending=False), use_container_width=True)
@@ -320,9 +363,9 @@ else:
             template="plotly_dark",
             paper_bgcolor="#131722",
             plot_bgcolor="#131722",
-            height=520,
-            margin=dict(l=20, r=20, t=50, b=20),
-            yaxis_title="Variazione % dall'inizio del periodo",
+            height=480,
+            margin=dict(l=10, r=10, t=40, b=10),
+            yaxis_title="Variazione % dall'inizio",
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
         fig_multi.update_yaxes(gridcolor='#2A2E39', zerolinecolor='#787B86')
