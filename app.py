@@ -20,7 +20,7 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
 
-    /* FORZATURA TEMA SCURO REALE */
+    /* FORZATURA TEMA SCURO REALE GLOBALE */
     :root {
         --background-color: #131722 !important;
         --secondary-background-color: #1E222D !important;
@@ -32,12 +32,25 @@ st.markdown("""
         color: #F0F3FA !important;
     }
     
-    [data-testid="stSidebar"] {
+    /* SIDEBAR COMPLETA SCURA & TESTI BIANCHI FORZATI */
+    [data-testid="stSidebar"], [data-testid="stSidebar"] > div {
         background-color: #1E222D !important;
         border-right: 1px solid #2A2E39;
     }
+    
+    /* FORZATURA TOTALE TESTO SIDEBAR (Risolve il testo nero nella sidebar) */
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3, 
+    [data-testid="stSidebar"] h4, 
+    [data-testid="stSidebar"] label, 
+    [data-testid="stSidebar"] p, 
+    [data-testid="stSidebar"] span, 
+    [data-testid="stSidebar"] div {
+        color: #F0F3FA !important;
+    }
 
-    /* FIX MENU A TENDINA & INPUT (Risolve il testo nero nei menu) */
+    /* FIX MENU A TENDINA & INPUT */
     div[data-baseweb="select"], div[data-baseweb="select"] * {
         background-color: #1E222D !important;
         color: #F0F3FA !important;
@@ -60,11 +73,11 @@ st.markdown("""
     [data-baseweb="popover"] {
         background-color: #1E222D !important;
     }
-    .stSelectbox label, .stMultiSelect label, .stRadio label, .stSlider label {
+    .stSelectbox label, .stMultiSelect label, .stRadio label, .stSlider label, .stCheckbox label {
         color: #F0F3FA !important;
     }
 
-    /* Header elegante e accattivante */
+    /* Header elegante */
     .title-container {
         display: flex;
         align-items: center;
@@ -233,7 +246,7 @@ asset_dict = {
 # --- SIDEBAR ---
 st.sidebar.header("🎛️ Pannello di Controllo")
 
-modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "Confronto Multi-Asset"])
+modalita = st.sidebar.radio("Modalità di Visualizzazione:", ["Singolo Asset", "⚔️ Confronto Multi-Asset"])
 
 periodo = st.sidebar.select_slider(
     "Periodo di Analisi:",
